@@ -1,17 +1,18 @@
-import {Product} from './components/Product'
-import {useProducts} from './hooks/products'
+import {Route, Routes} from 'react-router-dom'
+import { ProductsPage } from './pages/ProductsPage';
+import { BasketPage } from './pages/BasketPage';
+import { Navigation } from './components/Navigation';
 
 function App() {
-
-  const {loading, error, products} = useProducts();
-
-  return (
-    <div className="container pt-5 mx-auto">
-      {loading && <p className="text-center">Loading...</p>}
-      {error && <p className="text-center text-red-600">{error}</p>}
-      {products.map(product => <Product product={product} key={product.id} />)}
-    </div>
-  );
+  return(
+    <>
+      <Navigation/>
+      <Routes>
+        <Route path="/" element={<ProductsPage/>}/>
+        <Route path="/basket" element={<BasketPage/>}/>
+      </Routes>
+    </>
+  )
 }
 
 export default App;
