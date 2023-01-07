@@ -1,9 +1,13 @@
 import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { IProduct } from "../models/IProduct";
+import { useParams } from "react-router-dom";
 
-export function useProducts() {
-  const [products, setProducts] = useState<IProduct[]>([]);
+export function useProduct() {
+  const [product, setProduct] = useState<IProduct | null>(null);
+
+  const params = useParams();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -11,10 +15,10 @@ export function useProducts() {
     try {
       setError("");
       setLoading(true);
-      const response = axios.get<IProduct[]>(
-        "https://fakestoreapi.com/products"
+      const response = axios.get<IProduct>(
+        "https://fakestoreapi.com/products/" + params.id
       );
-      setProducts((await response).data);
+      setProduct((await response).data);
       setLoading(false);
     } catch (e: unknown) {
       const error = e as AxiosError;
@@ -27,5 +31,5 @@ export function useProducts() {
     fetchProducts();
   }, []);
 
-  return { products, error, loading };
+  return { product, error, loading };
 }
