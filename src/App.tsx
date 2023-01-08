@@ -1,20 +1,41 @@
-import {Route, Routes} from 'react-router-dom'
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import { ProductsPage } from './pages/ProductsPage';
+import Layout from './pages/Layout';
 import { BasketPage } from './pages/BasketPage';
-import { Navigation } from './components/Navigation';
 import { DetailPage } from './pages/DetailPage';
+import NotFoundPage, { NotFoundRedirect } from './pages/404';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    errorElement: <NotFoundRedirect />,
+    children: [
+      {
+        path: '/',
+        element: <ProductsPage />,
+        index: true,
+      },
+      {
+        path: '/basket',
+        element: <BasketPage />,
+        errorElement: <NotFoundRedirect />,
+      },
+      {
+        path: '/details/:id',
+        element: <DetailPage />,
+        errorElement: <NotFoundRedirect />,
+      },
+      {
+        path: "/404",
+        element: <NotFoundPage />,
+      },
+    ]
+  }
+])
 
 function App() {
-  return(
-    <>
-      <Navigation/>
-      <Routes>
-        <Route path="/" element={<ProductsPage/>}/>
-        <Route path="/basket" element={<BasketPage/>}/>
-        <Route path="/details/:id" element={<DetailPage/>}/>
-      </Routes>
-    </>
-  )
+  return <RouterProvider router={router} />;
 }
 
 export default App;
