@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Loader } from '../components/Loader';
 import { Error } from '../components/Error';
 import { useProducts } from '../hooks/products';
