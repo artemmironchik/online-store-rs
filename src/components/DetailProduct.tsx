@@ -34,23 +34,23 @@ export function DetailProduct({product}: ProductProps) {
   return (
     <div className="grid grid-cols-3 gap-4">
         <img src={product.image} className="w-3/5 m-auto" alt={product.title}/>
-            <div className="flex flex-col items-center justify-center">
-                <p>{product.title}</p>
-                <span className='font-bold'>Price: {product.price} $</span>
-                <p>Category: {product.category}</p>
-                <p>Rate: {product.rating.rate}</p> 
-            </div>
-            <div className="flex flex-col items-center justify-center">
-                <button onClick={handleClick} 
-                    className={btnClasses.join(' ')}
-                    > {add ? 'DROP FROM CART' : 'ADD TO CART' }
-                </button>
-                <button
-                    className="border w-full flex items-center justify-items-center justify-center my-4 py-2 bg-blue-400 rounded"
-                    >BUY NOW
-                </button>
-            </div>
-            <p className='col-span-3 text-center'>{product.description}</p>
+        <div className="flex flex-col items-center justify-center">
+            <p>{product.title}</p>
+            <span className='font-bold'>Price: {product.price} $</span>
+            <p>Category: {product.category}</p>
+            <p>Rate: {product.rating.rate}</p> 
+        </div>
+        <div className="flex flex-col items-center justify-center">
+            <button onClick={handleClick} 
+                className={btnClasses.join(' ')}
+                > {add ? 'DROP FROM CART' : 'ADD TO CART' }
+            </button>
+            <button
+                className="border w-full flex items-center justify-items-center justify-center my-4 py-2 bg-blue-400 rounded"
+                >BUY NOW
+            </button>
+        </div>
+        <p className='col-span-3 text-center'>{product.description}</p>
     </div>
   )
 }
