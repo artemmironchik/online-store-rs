@@ -1,5 +1,6 @@
 import {useState} from 'react'
-import { SORTINGS } from '../utils/constValues'
+import { SORTINGS } from '../../utils/constValues'
+import './SortButtons.css'
 
 function SortButtons({sortingFn, setSortingFn} : {sortingFn: string | undefined, setSortingFn: (value: string) => void}) {
     const [clickedButton, setClickedButton] = useState<string>()

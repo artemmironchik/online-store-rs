@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import './MultiSelect.css'
 
 function Multiselect({ options, title, onSelect } : { options: Array<string>, title: string, onSelect: (value: Set<string>) => void}) {
     const [set, setSet] = useState<Set<string>>(new Set())

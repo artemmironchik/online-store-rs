@@ -4,7 +4,7 @@ import { IProduct } from '../models/IProduct'
 
 function Products({ productsToDisplay } : { productsToDisplay: IProduct[]}) {
     return (
-        <div className="products-container">
+        <div className="grid grid-cols-4 gap-4 mx-auto">
             {productsToDisplay && productsToDisplay.map(product => {
                 return <Product isBasket={false} product={product} key={product.id}/>
             })}
