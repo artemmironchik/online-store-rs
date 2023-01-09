@@ -1,6 +1,6 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import { ProductsPage } from './pages/ProductsPage';
-import Layout from './pages/Layout';
+import Layout from './components/Layout';
 import { BasketPage } from './pages/BasketPage';
 import { DetailPage } from './pages/DetailPage';
 import NotFoundPage, { NotFoundRedirect } from './pages/404';
