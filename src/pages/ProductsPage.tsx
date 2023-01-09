@@ -49,15 +49,15 @@ export function ProductsPage() {
     }, [filterFns, sortingFn, debouncedFilter])
 
     return (
-      <div className="grid grid-cols-4 gap-4 flex-wrap justify-center items-center flex items-center pt-5 mx-auto">
-        {loading && <Loader/>}
-        {error && <Error error={error}/>}
-        <Search handleSearchValue={handleSearchValue}/>
-        {/* <SortButtons sortingFn={sortingFn} setSortingFn={setSortingFn}/>
-        <Multiselect options={COLORS} title = 'По цвету' onSelect={handleUpdateColorFilter}></Multiselect>
-        <Price handlePriceChange={handlePriceChange}/> */}
-        {filteredProducts.length ? <Products productsToDisplay={filteredProducts}/> : <div>По вашему запросу ничего не найдено</div>}
-        {/* <Amount amount={filteredProducts.length}/> */}
-      </div>
+        <div className="grid grid-cols-4 gap-4 flex-wrap justify-center items-center flex items-center pt-5 mx-auto">
+            {loading && <Loader/>}
+            {error && <Error error={error}/>}
+            <Search handleSearchValue={handleSearchValue}/>
+            {/* <SortButtons sortingFn={sortingFn} setSortingFn={setSortingFn}/>
+            <Multiselect options={COLORS} title = 'По цвету' onSelect={handleUpdateColorFilter}></Multiselect>
+            <Price handlePriceChange={handlePriceChange}/> */}
+            {filteredProducts.length ? <Products productsToDisplay={filteredProducts}/> : <div>По вашему запросу ничего не найдено</div>}
+            {/* <Amount amount={filteredProducts.length}/> */}
+        </div>
     );
 }

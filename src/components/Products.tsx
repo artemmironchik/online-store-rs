@@ -6,7 +6,7 @@ function Products({ productsToDisplay } : { productsToDisplay: IProduct[]}) {
     return (
         <div className="products-container">
             {productsToDisplay && productsToDisplay.map(product => {
-                return <Product product={product} key={product.id}/>
+                return <Product isBasket={false} product={product} key={product.id}/>
             })}
         </div>
     )
