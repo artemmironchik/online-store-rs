@@ -14,7 +14,7 @@ export function DetailProduct({product}: ProductProps) {
 
     useEffect(() => {
         productsID.includes(product.id) ? setAdd(true) : setAdd(false);
-    })
+    }, [])
 
     const btnClassName = add ? 'bg-yellow-400' : 'bg-blue-400';
     const btnClasses = ['border w-full flex items-center justify-items-center justify-center py-2 rounded', btnClassName];

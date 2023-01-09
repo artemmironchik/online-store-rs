@@ -9,7 +9,7 @@ import { Empty } from '../components/Empty';
 export function BasketPage() {
   
     const {loading, error, products} = useProducts();
-    let productsID = JSON.parse(localStorage.getItem("ProductsId") || "[]");
+    let productsID: number[] = JSON.parse(localStorage.getItem("ProductsId") || "[]");
     const basketProducts = products.filter((product) => productsID.includes(product.id))
     const totalPrice = basketProducts.reduce((acc, curr) => acc += curr.price, 0);
 
@@ -21,7 +21,7 @@ export function BasketPage() {
     },[])
 
     useEffect(() => {
-        const totalIdProducts = JSON.parse(localStorage.getItem("ProductsId") || "[]");
+        const totalIdProducts: number[] = JSON.parse(localStorage.getItem("ProductsId") || "[]");
         const totalProducts: IProduct[]  = [];
         totalIdProducts.forEach((id: number) => {
             products.forEach((product) => {
@@ -32,7 +32,6 @@ export function BasketPage() {
         })
         const totalPriceArr = totalProducts.map((product) => product.price);
         const totalPrice = totalPriceArr.reduce((acc, curr) => acc += curr, 0);
-        console.log(totalPrice)
         setPrice(totalPrice)
     }, [state])
 
