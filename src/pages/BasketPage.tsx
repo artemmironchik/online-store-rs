@@ -4,6 +4,7 @@ import { Error } from '../components/Error';
 import { useProducts } from '../hooks/products';
 import { Product } from '../components/Product';
 import { IProduct } from '../models/IProduct';
+import { Empty } from '../components/Empty';
 
 export function BasketPage() {
   
@@ -45,7 +46,8 @@ export function BasketPage() {
         {error && <Error error={error}/>}
         <div onClick={handleClick}>
             <p className = "text-center mb-5 totalPrice">Total price: {price === 0 ? totalPrice.toFixed(2) : price.toFixed(2)} $</p>
-            {basketProducts.map(product => <Product product={product} isBasket={true} key={product.id} />)}
+            {totalPrice === 0 ? <Empty/> :
+                basketProducts.map(product => <Product product={product} isBasket={true} key={product.id} />)}
         </div>
       </div>
     );
