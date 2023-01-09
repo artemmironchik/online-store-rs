@@ -1,11 +1,11 @@
 import {useState} from 'react'
 import { SORTINGS } from '../utils/constValues'
 
-function SortButtons({setSortingFn} : {setSortingFn: (value: string) => void}) {
+function SortButtons({sortingFn, setSortingFn} : {sortingFn: string | undefined, setSortingFn: (value: string) => void}) {
     const [clickedButton, setClickedButton] = useState<string>()
 
     const handleClick = (name: string) => {
-        // setSortingFn(SORTINGS[name])
+        setSortingFn(name)
         setClickedButton(name)
     }
     return (

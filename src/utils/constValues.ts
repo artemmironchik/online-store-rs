@@ -1,9 +1,11 @@
 import { IProduct } from "../models/IProduct"
 
-export const SORTINGS = {
-  'price / asc': () => (p1: IProduct, p2: IProduct) => p1.price - p2.price,
-  'price / desc': () => (p1: IProduct, p2: IProduct) => p2.price - p1.price,
-  'rating / desc': () => (p1: IProduct, p2: IProduct) => p2.rating.rate - p1.rating.rate,
+export type SortFunction = (a: IProduct, b: IProduct) => number;
+
+export const SORTINGS: Record<string, SortFunction> = {
+  'price / asc': (p1: IProduct, p2: IProduct) => p1.price - p2.price,
+  'price / desc': (p1: IProduct, p2: IProduct) => p2.price - p1.price,
+  'rating / desc': (p1: IProduct, p2: IProduct) => p2.rating.rate - p1.rating.rate,
 }
 
 export const FILTERS = {
