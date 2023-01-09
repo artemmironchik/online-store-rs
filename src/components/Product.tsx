@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { IProduct } from '../models/IProduct'
 
@@ -8,13 +8,34 @@ interface ProductProps {
 }
 
 export function Product({product, isBasket}: ProductProps,) {
+
+    let productsID = JSON.parse(localStorage.getItem("ProductsId") || "[]");
+    const [count, setCount] = useState<number>(1);
+
+    const handleAddClick = () => {
+        setCount(count + 1);
+        productsID.push(product.id);
+        localStorage.setItem("ProductsId", JSON.stringify(productsID));
+    }
+
+    const handleDeleteClick = () => {
+        if(count === 1) {
+            productsID = productsID.filter((elem: number) => elem !== product.id)
+            localStorage.setItem("ProductsId", JSON.stringify(productsID));
+        } else {
+            setCount(count - 1);
+            productsID.pop(product.id);
+            localStorage.setItem("ProductsId", JSON.stringify(productsID));
+        }
+    }
+
   return (
     <>
         <Link to={`/details/${product.id}`}>
         {!isBasket && <div className="py-2 px-4 rounded flex flex-col items-center mb-2">
                 <img src={product.image} className="w-16" alt={product.title}/>
                 <p>{product.title}</p>
-                <span className='font-bold'>{product.price}</span>
+                <span className='font-bold'>{product.price} $</span>
             </div>}
         </Link>
         {isBasket && <div className="grid grid-cols-6 gap-4 mb-3 items-center rounded border py-5 px-5 w-4/5 m-auto">
@@ -24,10 +45,12 @@ export function Product({product, isBasket}: ProductProps,) {
             <p className='text-xs'>{product.description}</p>
         </div>
           <div className="flex flex-col items-center">
-          <span className='font-bold text-base'>{product.price} $</span>
+          <span className='font-bold text-base'>{(product.price * count).toFixed(2)} $</span>
             <div className="flex justify-around w-4/5">
-                <button className="px-1 py-1 border rounded text-base">Add</button>
-                <button className="px-1 py-1 border rounded text-base">Delete</button>
+                <button onClick={handleAddClick} className="px-1 py-1 border rounded text-base w-10">
+                   {count === 1 ? 'Add' : count} 
+                </button>
+                <button onClick={handleDeleteClick} className="px-1 py-1 border rounded text-base">Delete</button>
             </div>
           </div>
         </div>}
