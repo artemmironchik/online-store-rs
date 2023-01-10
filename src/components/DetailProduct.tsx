@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { IProduct } from '../models/IProduct'
+import { BuyProduct } from './BuyProduct';
+import { Modal } from './Modal';
 
 interface ProductProps {
-    product: IProduct
+    product: IProduct,
 }
 
 export function DetailProduct({product}: ProductProps) {
 
     const [add, setAdd] = useState<Boolean>(false);
+    const [modal, setModal] = useState<Boolean>(false);
 
     let productsID = JSON.parse(localStorage.getItem("ProductsId") || "[]");
 
@@ -31,6 +34,10 @@ export function DetailProduct({product}: ProductProps) {
         }
     }
 
+    const handleBuyClick = () => {
+        setModal(true);
+    }
+
   return (
     <div className="grid grid-cols-3 gap-4">
         <img src={product.image} className="w-3/5 m-auto" alt={product.title}/>
@@ -45,10 +52,13 @@ export function DetailProduct({product}: ProductProps) {
                 className={btnClasses.join(' ')}
                 > {add ? 'DROP FROM CART' : 'ADD TO CART' }
             </button>
-            <button
+            <button onClick={handleBuyClick}
                 className="border w-full flex items-center justify-items-center justify-center my-4 py-2 bg-blue-400 rounded"
-                >BUY NOW
+                > BUY NOW
             </button>
+            {modal && <Modal title="Personal details" onClose={()=> setModal(false)}>
+                <BuyProduct onBuyProduct={()=>setModal(false)}/>
+            </Modal>}
         </div>
         <p className='col-span-3 text-center'>{product.description}</p>
     </div>

@@ -9,22 +9,26 @@ interface ProductProps {
 
 export function Product({product, isBasket}: ProductProps,) {
 
-    let productsID = JSON.parse(localStorage.getItem("ProductsId") || "[]");
+    let productsID: number[] | null = JSON.parse(localStorage.getItem("ProductsId") || "[]");
+
     const [count, setCount] = useState<number>(1);
 
     const handleAddClick = () => {
         setCount(count + 1);
+        if(productsID)
         productsID.push(product.id);
         localStorage.setItem("ProductsId", JSON.stringify(productsID));
     }
 
     const handleDeleteClick = () => {
         if(count === 1) {
+            if(productsID)
             productsID = productsID.filter((elem: number) => elem !== product.id)
             localStorage.setItem("ProductsId", JSON.stringify(productsID));
         } else {
             setCount(count - 1);
-            productsID.pop(product.id);
+            if(productsID)
+            productsID.pop();
             localStorage.setItem("ProductsId", JSON.stringify(productsID));
         }
     }
