@@ -13,12 +13,12 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <ProductsPage />,
+        element: <ProductsPage isLayaout={false} />,
         index: true,
       },
       {
         path: '/basket',
-        element: <BasketPage />,
+        element: <BasketPage/>,
         errorElement: <NotFoundRedirect />,
       },
       {
