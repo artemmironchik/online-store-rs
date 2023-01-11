@@ -11,16 +11,15 @@ export function BasketPage() {
     const {loading, error, products} = useProducts();
     let productsID: number[] = JSON.parse(localStorage.getItem("ProductsId") || "[]");
     const basketProducts = products.filter((product) => productsID.includes(product.id))
-    const totalPrice = basketProducts.reduce((acc, curr) => acc += curr.price, 0);
 
     const [state, setState] = useState<number>(0);
-    const [price, setPrice] = useState<number>(totalPrice);
-    
-    useEffect(() => {
-        setPrice(totalPrice)
-    },[])
+    const [price, setPrice] = useState<number>(getTotalPrice());
 
     useEffect(() => {
+        setPrice(getTotalPrice())
+    },[])
+
+    function getTotalPrice() {
         const totalIdProducts: number[] = JSON.parse(localStorage.getItem("ProductsId") || "[]");
         const totalProducts: IProduct[]  = [];
         totalIdProducts.forEach((id: number) => {
@@ -31,8 +30,12 @@ export function BasketPage() {
             })
         })
         const totalPriceArr = totalProducts.map((product) => product.price);
-        const totalPrice = totalPriceArr.reduce((acc, curr) => acc += curr, 0);
-        setPrice(totalPrice)
+        const totalPrice = totalPriceArr.reduce((acc, curr) => acc += curr, 0);  
+        return totalPrice;
+    }
+
+    useEffect(() => {
+        setPrice(getTotalPrice())
     }, [state])
 
     const handleClick = () => {
@@ -44,8 +47,8 @@ export function BasketPage() {
         {loading && <Loader/>}
         {error && <Error error={error}/>}
         <div onClick={handleClick}>
-            <p className = "text-center mb-5 totalPrice">Total price: {price === 0 ? totalPrice.toFixed(2) : price.toFixed(2)} $</p>
-            {totalPrice === 0 ? <Empty/> :
+            <p className = "text-center mb-5 totalPrice">Total price: {price === 0 ? getTotalPrice().toFixed(2) : price.toFixed(2)} $</p>
+            {getTotalPrice() === 0 ? <Empty/> :
                 basketProducts.map(product => <Product product={product} isBasket={true} key={product.id} />)}
         </div>
       </div>
