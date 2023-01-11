@@ -6,6 +6,6 @@ interface ErrorMessageProps {
 
 export function Error({error} : ErrorMessageProps) {
   return (
-    <p className="text-center text-red-600">{error}</p>
+    <p className="text-center text-red-600 text-sm">{error}</p>
   )
 }
