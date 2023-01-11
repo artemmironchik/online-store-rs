@@ -16,3 +16,14 @@ export interface IProduct extends IObjectKeys {
   image: string;
   rating: IRating;
 }
+
+// export interface QueryParams {
+//   search?: string;
+//   category?: string;
+//   sort?: string;
+//   minprice?: number;
+//   maxprice?: number;
+//   minstock?: number;
+//   maxstock?: number;
+//   [index: string]: string | number;
+// }

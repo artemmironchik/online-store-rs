@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FILTERS, SORTINGS } from '../utils/constValues';
 import { Loader } from '../components/Loader';
 import { Error } from '../components/Error';
@@ -10,11 +11,14 @@ import Products from '../components/Products';
 import debounce from 'lodash.debounce';
 import Multiselect from '../components/MultiSelect/MultiSelect';
 import Amount from '../components/Amount/Amount';
+// import { QueryParams } from '../models/QueryParams';
 
 type FilterFunction = (a: IProduct) => boolean
 
 export function ProductsPage() {
     const {loading, error, products} = useProducts();
+    const [query, setQuery] = useState<Record<string, string | number>>({})
+    const navigate = useNavigate()
 
     const [filterFns, setFilterFns] = useState<Record<string, FilterFunction>>({})
     const [sortingFnName, setSortingFn] = useState<string>()
@@ -52,18 +56,21 @@ export function ProductsPage() {
     }, 500), [filterFns, sortingFnName])
 
     useEffect(() => {
-        debouncedFilter()
-    }, [filterFns, sortingFnName, debouncedFilter])
+      debouncedFilter()
+      const url = Object.entries(query).map((arr) => arr.join('=')).join('&')
+      navigate({search: url})
+    }, [filterFns, sortingFnName, debouncedFilter, query])
+
 
     return (
       <div>
         <div className='flex flex-col gap-4 mb-6'>
-          <Search handleSearchValue={handleSearchValue}/>
-          <SortButtons sortingFn={sortingFnName} setSortingFn={setSortingFn}/>
+          <Search handleSearchValue={handleSearchValue} setQuery={setQuery} query={query}/>
+          <SortButtons sortingFn={sortingFnName} setSortingFn={setSortingFn} setQuery={setQuery} query={query}/>
         </div>
         <div className='flex gap-6'>
           <div>
-            <Multiselect options={categoriesArr} title = 'По категории' onSelect={handleUpdateColorFilter}></Multiselect>
+            <Multiselect options={categoriesArr} title = 'По категории' onSelect={handleUpdateColorFilter} setQuery={setQuery} query={query}></Multiselect>
             {/* <Price handlePriceChange={handlePriceChange}/> */}
             <Amount amount={filteredProducts.length ? filteredProducts.length : products.length}/>
           </div>
