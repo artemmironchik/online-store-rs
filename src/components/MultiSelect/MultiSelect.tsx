@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
 import './MultiSelect.css'
 
 function Multiselect({ options, title, onSelect, setQuery, query } : { options: Array<string>, title: string, onSelect: (value: Set<string>) => void, 

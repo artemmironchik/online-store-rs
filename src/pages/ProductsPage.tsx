@@ -11,9 +11,9 @@ import Products from '../components/Products';
 import debounce from 'lodash.debounce';
 import Multiselect from '../components/MultiSelect/MultiSelect';
 import Amount from '../components/Amount/Amount';
-// import { QueryParams } from '../models/QueryParams';
+import DualSlider from '../components/DualSlider/DualSlider';
+import { FilterFunction } from '../types/FunctionTypes';
 
-type FilterFunction = (a: IProduct) => boolean
 
 export function ProductsPage() {
     const {loading, error, products} = useProducts();
@@ -23,6 +23,8 @@ export function ProductsPage() {
     const [filterFns, setFilterFns] = useState<Record<string, FilterFunction>>({})
     const [sortingFnName, setSortingFn] = useState<string>()
     const [filteredProducts, setFilteredProducts] = useState<IProduct[]>(products)
+    const [min, setMin] = useState<number>(0)
+    const [max, setMax] = useState<number>(0)
 
     const categoriesArr = Array.from(new Set(products.map((product) => product.category)))
 
@@ -38,9 +40,9 @@ export function ProductsPage() {
     const handleSearchValue = (searchValue: string) => {
         setFilterFns({ ...filterFns, search: FILTERS.search(searchValue, 'title') })
     }
-    // const handlePriceChange = (min: number, max: number) => {
-    //     setFilterFns({ ...filterFns, range: FILTERS.range(min, max, 'price') })
-    // }
+    const handlePriceChange = (min: number, max: number) => {
+        setFilterFns({ ...filterFns, range: FILTERS.range(min, max, 'price') })
+    }
 
     const debouncedFilter = useCallback(debounce(() => {
         const allProductsCopy = structuredClone([...products]);
@@ -61,6 +63,11 @@ export function ProductsPage() {
       navigate({search: url})
     }, [filterFns, sortingFnName, debouncedFilter, query])
 
+    useEffect(() => {
+      const prices = filteredProducts.map((elem) => elem.price)
+      setMin(Math.min(...prices))
+      setMax(Math.max(...prices))
+    }, [filteredProducts])
 
     return (
       <div>
@@ -71,8 +78,8 @@ export function ProductsPage() {
         <div className='flex gap-6'>
           <div>
             <Multiselect options={categoriesArr} title = 'По категории' onSelect={handleUpdateColorFilter} setQuery={setQuery} query={query}></Multiselect>
-            {/* <Price handlePriceChange={handlePriceChange}/> */}
-            <Amount amount={filteredProducts.length ? filteredProducts.length : products.length}/>
+            <DualSlider min={min} max={max} name='Price' handleValuesChange={handlePriceChange}/>
+            <Amount amount={filteredProducts.length}/>
           </div>
           <div>
             {loading && <Loader/>}

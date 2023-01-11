@@ -1,6 +1,5 @@
 import { IProduct } from "../models/IProduct"
-
-export type SortFunction = (a: IProduct, b: IProduct) => number;
+import { SortFunction } from "../types/FunctionTypes"
 
 export const SORTINGS: Record<string, SortFunction> = {
   'price / asc': (p1: IProduct, p2: IProduct) => p1.price - p2.price,

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
 import './Search.css'
 
 function Search({handleSearchValue, setQuery, query} : {handleSearchValue: (value: string) => void, setQuery: (value: Record<string, string | number> | ((prevState: Record<string, string | number>) => Record<string, string | number>)) => void, query: Record<string, string | number>}) {

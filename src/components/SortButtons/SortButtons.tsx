@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
 import { SORTINGS } from '../../utils/constValues'
 import './SortButtons.css'
 
