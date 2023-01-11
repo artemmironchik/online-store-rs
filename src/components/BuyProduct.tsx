@@ -43,7 +43,7 @@ export function BuyProduct({onBuyProduct}: BuyProductProps) {
 
 
     const submitHandler = (event: React.FormEvent) => {
-        onBuyProduct();
+         onBuyProduct();
     }
 
     const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
