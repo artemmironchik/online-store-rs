@@ -1,0 +1,22 @@
+.multiselect-container {
+  width: 146px;
+}
+
+.multiselect-text, .list-of-options {
+  padding: 5px 15px;
+}
+
+.multiselect-text {
+  border: 1px solid #000000;
+}
+
+.multiselect-text p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.list-of-options {
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
