@@ -47,7 +47,8 @@ export function DetailProduct({product}: ProductProps) {
 
   return (
     <div>
-        <p className="container mx-auto my-[20px] px-5 py-5 border-b-2">Store {split} {product.category} {split} {product.title} </p>
+        <p className="container mx-auto my-[20px] px-5 py-5 border-b-2">
+            <Link to="/"><span className="text-yellow-400 hover:text-blue-400">Store</span></Link> {split} {product.category} {split} {product.title} </p>
         <div className="grid grid-cols-3 gap-4">
         <img src={product.image} className="w-3/5 m-auto" alt={product.title}/>
         <div className="flex flex-col items-center justify-center">
