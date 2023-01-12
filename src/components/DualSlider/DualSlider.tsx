@@ -1,37 +1,58 @@
 import { ChangeEvent, FC, useCallback, useEffect, useState, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './DualSlider.css';
 
 interface DualSliderProps {
   min: number;
   max: number;
-  name: string;
+  title: string;
   handleValuesChange: (a: number, b: number) => void;
+  setQuery: (value: Record<string, string | number> | ((prevState: Record<string, string | number>) => Record<string, string | number>)) => void;
+  query: Record<string, string | number>;
 }
 
-const DualSlider: FC<DualSliderProps> = ({ min, max, name, handleValuesChange }) => {
+const DualSlider: FC<DualSliderProps> = ({ min, max, title, handleValuesChange, setQuery, query }) => {
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
   const minValRef = useRef(min);
   const maxValRef = useRef(max);
   const range = useRef<HTMLDivElement>(null); 
 
+  const [searchParams] = useSearchParams();
+
   const getPercent = useCallback((value: number) =>
     Math.round(((value - min) / (max - min)) * 100), [min, max])
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let { value, name } = e.target;
+  const handleChange = (value: string, name: string) => {
     if(name === 'min-range') {
-      const newValue = Math.min(Number(value), maxVal - 1);
+      const newValue = Math.min(Number(value), maxVal);
       setMinVal(newValue);
       minValRef.current = newValue;
-      handleValuesChange(minVal, maxVal)
+      handleValuesChange(minValRef.current, maxValRef.current)
     } else {
-      const newValue = Math.max(Number(value), minVal + 1);
+      const newValue = Math.max(Number(value), minVal);
       setMaxVal(newValue);
       maxValRef.current = newValue;
-      handleValuesChange(minVal, maxVal)
+      handleValuesChange(minValRef.current, maxValRef.current)
+    }
+
+    if(title === 'Price') {
+      setQuery((prevQuery: Record<string, string | number>) => ({...prevQuery, price: `${minValRef.current}↕${maxValRef.current}`}))
+    } else {
+      setQuery((prevQuery: Record<string, string | number>) => ({...prevQuery, stock: `${maxValRef.current}↕${maxValRef.current}`}))
     }
   }
+
+  useEffect(() => {
+    const price = searchParams.get('price')
+    if(price) {
+      const values = price.split('↕')
+      const min = values[0]
+      const max = values[1]
+      handleChange(min, 'min-range')
+      handleChange(max, 'max-range')
+    }
+  }, [])
 
   useEffect(() => {
     const minPercent = getPercent(minVal);
@@ -53,16 +74,17 @@ const DualSlider: FC<DualSliderProps> = ({ min, max, name, handleValuesChange })
   }, [maxVal, getPercent]);
 
   return (
-    <div className='container'>
-        <p>{name}</p>
+    <div className='container dual-slider'>
+        <p className='title'>{title}</p>
         <div className='slider-container'>
           <input
             type='range'
             name='min-range'
             min={min}
             max={max}
+            step={0.01}
             value={minVal}
-            onChange={handleChange}
+            onChange={e => handleChange(e.target.value, e.target.name)}
             className='thumb thumb--left'
           />
           <input
@@ -70,8 +92,9 @@ const DualSlider: FC<DualSliderProps> = ({ min, max, name, handleValuesChange })
             name='max-range'
             min={min}
             max={max}
+            step={0.01}
             value={maxVal}
-            onChange={handleChange}
+            onChange={e => handleChange(e.target.value, e.target.name)}
             className='thumb thumb--right'
           />
 

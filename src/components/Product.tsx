@@ -26,7 +26,6 @@ export function Product({product, isBasket}: ProductProps,) {
 
     function getCountProduct() {
         let productsID: number[] | null = JSON.parse(localStorage.getItem("ProductsId") || "[]");
-        console.log(productsID)
         const counts: {[index: number]: number} = {};
         if(productsID) {
             productsID.forEach(function(x) { counts[x] = (counts[x] || 0) + 1; });

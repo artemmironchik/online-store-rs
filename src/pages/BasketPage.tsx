@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Loader } from '../components/Loader';
 import { Error } from '../components/Error';
-import { useProducts } from '../hooks/products';
 import { Product } from '../components/Product';
 import { IProduct } from '../models/IProduct';
 import { Empty } from '../components/Empty';
+import { ProductsContext } from '../contexts/ProductsContext'
+import { ProductsContextProps } from '../contexts/ProductsContext';
 
 export function BasketPage() {
   
-    const {loading, error, products} = useProducts();
+    const {loading, error, products} = useContext(ProductsContext) as ProductsContextProps;
     let productsID: number[] = JSON.parse(localStorage.getItem("ProductsId") || "[]");
     const basketProducts = products.filter((product) => productsID.includes(product.id))
 

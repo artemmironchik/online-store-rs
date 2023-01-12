@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import { BasketPage } from './pages/BasketPage';
 import { DetailPage } from './pages/DetailPage';
 import NotFoundPage, { NotFoundRedirect } from './pages/404';
+import Store from './contexts/Store'
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <ProductsPage isLayaout={false} />,
+        element: <ProductsPage />,
         index: true,
       },
       {
@@ -35,7 +36,11 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  return( <RouterProvider router={router} />)
+  return (
+    <Store>
+      <RouterProvider router={router} />
+    </Store>
+  )
 }
 
 export default App;
