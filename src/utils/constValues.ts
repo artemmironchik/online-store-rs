@@ -10,5 +10,6 @@ export const SORTINGS: Record<string, SortFunction> = {
 export const FILTERS = {
   includes: (set: Set<string>, field: string) => (o: IProduct) => set.has(<string>o[field]),
   range: (min: number, max: number, field: string) => (o: IProduct) => o[field] >= min && o[field] <= max,
+  stock: (min: number, max: number, field: string) => (o: IProduct) => o['rating'][field] >= min && o['rating'][field] <= max,
   search: (search: string, field: string) => (o: IProduct) => (<string>o[field]).toLowerCase().includes(search.toLowerCase()),
 }

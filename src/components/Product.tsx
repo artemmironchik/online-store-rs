@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom';
 import { IProduct } from '../models/IProduct'
+import { ProductsContext } from '../contexts/ProductsContext'
+import { ProductsContextProps } from '../contexts/ProductsContext';
 
 interface ProductProps {
     product: IProduct,
@@ -8,10 +10,11 @@ interface ProductProps {
 }
 
 export function Product({product, isBasket}: ProductProps,) {
+    const {totalPrice, setPrice} = useContext(ProductsContext) as ProductsContextProps;
 
     let productsID: number[] | null = JSON.parse(localStorage.getItem("ProductsId") || "[]");
 
-    const totalCount = getCountProduct() ? getCountProduct() : 1;
+    const totalCount = getCountProduct() ? getCountProduct() : 0;
     const [count, setCount] = useState<number>(totalCount);
 
     const handleAddClick = () => {
@@ -26,6 +29,7 @@ export function Product({product, isBasket}: ProductProps,) {
             }
         }
         localStorage.setItem("ProductsId", JSON.stringify(productsID));
+        setPrice(totalPrice + product.price)
     }
 
     function getCountProduct() {
@@ -38,6 +42,7 @@ export function Product({product, isBasket}: ProductProps,) {
     }
 
     const handleDeleteClick = () => {
+        setPrice(totalPrice - product.price)
         if(count === 1) {
             if(productsID)
             productsID = productsID.filter((elem: number) => elem !== product.id)
@@ -56,7 +61,7 @@ export function Product({product, isBasket}: ProductProps,) {
         <Link to={`/details/${product.id}`}><img src={product.image} className="w-16" alt={product.title}/></Link>
                 <p>{product.title}</p>
                 <span className='font-bold'>{product.price} $</span>
-                <div className='flex justify-between w-full'><button onClick={handleAddClick} className='rounded'>{count === 1 ? 'Add' : count}</button>
+                <div className='flex justify-between w-full'><button onClick={handleAddClick} className='rounded'>{count === 0 ? 'Add' : count}</button>
                 <Link to={`/details/${product.id}`}><button className='rounded' >Detail</button></Link></div>
             </div>}
         {isBasket && <div className="grid grid-cols-6 mb-3 items-center rounded border py-5 px-5 m-auto">
@@ -70,7 +75,7 @@ export function Product({product, isBasket}: ProductProps,) {
           <span className='font-bold text-base'>{(product.price * count).toFixed(2)} $</span>
             <div className="flex justify-around w-4/5">
                 <button onClick={handleAddClick} className="px-1 py-1 border rounded text-base w-10">
-                   {count === 1 ? 'Add' : count} 
+                   {count} 
                 </button>
                 <button onClick={handleDeleteClick} className="px-1 py-1 border rounded text-base">Delete</button>
             </div>

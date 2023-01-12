@@ -10,7 +10,7 @@ import { Summary } from '../components/Summary';
 
 export function BasketPage() {
   
-    const {loading, error, products} = useContext(ProductsContext) as ProductsContextProps;
+    const {loading, error, products, totalPrice} = useContext(ProductsContext) as ProductsContextProps;
     let productsID: number[] = JSON.parse(localStorage.getItem("ProductsId") || "[]");
     const basketProducts = products.filter((product) => productsID.includes(product.id))
 
@@ -56,11 +56,10 @@ export function BasketPage() {
         {loading && <Loader/>}
         {error && <Error error={error}/>}
         <div className="m-auto" onClick={handleClick}>
-            <p className = "text-center mb-5 totalPrice">Total price: {price === 0 ? getTotalPrice().toFixed(2) : price.toFixed(2)} $</p>
-            {getTotalPrice() === 0 ? <Empty/> :
+            {totalPrice === 0 ? <Empty/> :
                 basketProducts.map(product => <Product product={product} isBasket={true} key={product.id} />)}
         </div>
-        {getTotalPrice() !== 0 && <Summary count={count} totalPrice={+price === 0 ? +getTotalPrice().toFixed(2) : +price.toFixed(2)} />}
+        {totalPrice !== 0 && <Summary count={count} totalPrice={+price === 0 ? +totalPrice.toFixed(2) : +price.toFixed(2)} />}
       </div>
     );
 }

@@ -39,7 +39,7 @@ const DualSlider: FC<DualSliderProps> = ({ min, max, title, handleValuesChange, 
     if(title === 'Price') {
       setQuery((prevQuery: Record<string, string | number>) => ({...prevQuery, price: `${minValRef.current}↕${maxValRef.current}`}))
     } else {
-      setQuery((prevQuery: Record<string, string | number>) => ({...prevQuery, stock: `${maxValRef.current}↕${maxValRef.current}`}))
+      setQuery((prevQuery: Record<string, string | number>) => ({...prevQuery, stock: `${minValRef.current}↕${maxValRef.current}`}))
     }
   }
 
@@ -82,7 +82,7 @@ const DualSlider: FC<DualSliderProps> = ({ min, max, title, handleValuesChange, 
             name='min-range'
             min={min}
             max={max}
-            step={0.01}
+            step={1}
             value={minVal}
             onChange={e => handleChange(e.target.value, e.target.name)}
             className='thumb thumb--left'
@@ -92,7 +92,7 @@ const DualSlider: FC<DualSliderProps> = ({ min, max, title, handleValuesChange, 
             name='max-range'
             min={min}
             max={max}
-            step={0.01}
+            step={1}
             value={maxVal}
             onChange={e => handleChange(e.target.value, e.target.name)}
             className='thumb thumb--right'

@@ -3,7 +3,7 @@ import './Amount.css'
 function Amount({ amount } : { amount: number }) {
   return (
     <div className="amount-container">
-      <p>Всего товаров: { amount }</p>
+      <p>Found: { amount }</p>
     </div>
   )
 }
