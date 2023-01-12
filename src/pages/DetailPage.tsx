@@ -9,7 +9,7 @@ export function DetailPage() {
   const {loading, error, product} = useProduct();
 
   return (
-    <div className="container mx-auto my-[10%] border rounded px-5 py-5">
+    <div className="container mx-auto mb-[5%] px-5 py-5">
         {loading && <Loader/>}
         {error && <Error error={error}/>}
         {product && <DetailProduct product={product} key={product.id} />}

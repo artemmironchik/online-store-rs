@@ -6,6 +6,7 @@ import { IProduct } from '../models/IProduct';
 import { Empty } from '../components/Empty';
 import { ProductsContext } from '../contexts/ProductsContext'
 import { ProductsContextProps } from '../contexts/ProductsContext';
+import { Summary } from '../components/Summary';
 
 export function BasketPage() {
   
@@ -15,6 +16,7 @@ export function BasketPage() {
 
     const [state, setState] = useState<number>(0);
     const [price, setPrice] = useState<number>(getTotalPrice());
+    const [count, setCount] = useState(getCount());
 
     useEffect(() => {
         setPrice(getTotalPrice())
@@ -35,8 +37,14 @@ export function BasketPage() {
         return totalPrice;
     }
 
+    function getCount() {
+        const totalIdProducts: number[] = JSON.parse(localStorage.getItem("ProductsId") || "[]");
+        return totalIdProducts.length;
+    }
+
     useEffect(() => {
         setPrice(getTotalPrice())
+        setCount(getCount())
     }, [state])
 
     const handleClick = () => {
@@ -44,14 +52,15 @@ export function BasketPage() {
     }
 
     return (
-      <div className="container m-auto px-5 py-5">
+      <div className="container m-auto px-5 py-5 flex">
         {loading && <Loader/>}
         {error && <Error error={error}/>}
-        <div onClick={handleClick}>
+        <div className="m-auto" onClick={handleClick}>
             <p className = "text-center mb-5 totalPrice">Total price: {price === 0 ? getTotalPrice().toFixed(2) : price.toFixed(2)} $</p>
             {getTotalPrice() === 0 ? <Empty/> :
                 basketProducts.map(product => <Product product={product} isBasket={true} key={product.id} />)}
         </div>
+        {getTotalPrice() !== 0 && <Summary count={count} totalPrice={+price === 0 ? +getTotalPrice().toFixed(2) : +price.toFixed(2)} />}
       </div>
     );
 }
