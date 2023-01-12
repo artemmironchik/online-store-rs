@@ -14,6 +14,8 @@ export function DetailProduct({product}: ProductProps) {
     const [modal, setModal] = useState<Boolean>(false);
     const [isOrder, setIsOrder] = useState<Boolean>(false);
 
+    const split: string = '>>';
+
     let productsID = JSON.parse(localStorage.getItem("ProductsId") || "[]");
 
     useEffect(() => {
@@ -44,7 +46,9 @@ export function DetailProduct({product}: ProductProps) {
     }
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div>
+        <p className="container mx-auto my-[20px] px-5 py-5 border-b-2">Store {split} {product.category} {split} {product.title} </p>
+        <div className="grid grid-cols-3 gap-4">
         <img src={product.image} className="w-3/5 m-auto" alt={product.title}/>
         <div className="flex flex-col items-center justify-center">
             <p>{product.title}</p>
@@ -67,6 +71,7 @@ export function DetailProduct({product}: ProductProps) {
             </Modal>}
         </div>
         <p className='col-span-3 text-center'>{product.description}</p>
+    </div>
     </div>
   )
 }
