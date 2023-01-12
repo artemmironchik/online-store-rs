@@ -46,6 +46,7 @@ export function DetailProduct({product}: ProductProps) {
             <span className='font-bold'>Price: {product.price} $</span>
             <p>Category: {product.category}</p>
             <p>Rate: {product.rating.rate}</p> 
+            <p>Number of products in stock: {product.rating.count}</p>
         </div>
         <div className="flex flex-col items-center justify-center">
             <button onClick={handleClick} 
