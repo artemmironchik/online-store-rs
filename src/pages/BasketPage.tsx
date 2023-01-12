@@ -54,12 +54,12 @@ export function BasketPage() {
       <div className="container m-auto px-5 py-5 flex">
         {loading && <Loader/>}
         {error && <Error error={error}/>}
-        <div onClick={handleClick}>
+        <div className="m-auto" onClick={handleClick}>
             <p className = "text-center mb-5 totalPrice">Total price: {price === 0 ? getTotalPrice().toFixed(2) : price.toFixed(2)} $</p>
             {getTotalPrice() === 0 ? <Empty/> :
                 basketProducts.map(product => <Product product={product} isBasket={true} key={product.id} />)}
         </div>
-        <Summary count={count} totalPrice={+price === 0 ? +getTotalPrice().toFixed(2) : +price.toFixed(2)} />
+        {getTotalPrice() !== 0 && <Summary count={count} totalPrice={+price === 0 ? +getTotalPrice().toFixed(2) : +price.toFixed(2)} />}
       </div>
     );
 }

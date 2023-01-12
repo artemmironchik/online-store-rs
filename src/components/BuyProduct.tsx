@@ -3,9 +3,10 @@ import {Error} from './Error'
 
 interface BuyProductProps {
     onBuyProduct: ()=> void
+    onOrderProduct: () => void
 }
 
-export function BuyProduct({onBuyProduct}: BuyProductProps) {
+export function BuyProduct({onBuyProduct, onOrderProduct}: BuyProductProps) {
 
     const [name, setName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -32,7 +33,7 @@ export function BuyProduct({onBuyProduct}: BuyProductProps) {
     const [errorCode, setErrorCode] = useState<string>('Please enter valid code');
 
     const [formValid, setFormValid] = useState<boolean>(false);
-    const [errorMsg, setErrorMsg] = useState(false);
+    const [errorMsg, setErrorMsg] = useState<boolean>(false);
     const [imgCard, setImgCard] = useState("https://i.guim.co.uk/img/media/b73cc57cb1d46ae742efd06b6c58805e8600d482/16_0_2443_1466/master/2443.jpg?width=700&quality=85&auto=format&fit=max&s=fb1dca6cdd4589cd9ef2fc941935de71")
 
     useEffect(() => {
@@ -46,6 +47,7 @@ export function BuyProduct({onBuyProduct}: BuyProductProps) {
 
     const submitHandler = (event: React.FormEvent) => {
          onBuyProduct();
+         onOrderProduct();
          setErrorMsg(false);
     }
 
@@ -173,7 +175,7 @@ export function BuyProduct({onBuyProduct}: BuyProductProps) {
         <input 
         name="name"
         type="text"
-        className="border py-2 px-4 mb-2 w-full outline-0"
+        className="border py-1 px-4 mb-2 w-full outline-0"
         placeholder="Name"
         value={name}
         onChange={changeHandler}
@@ -183,7 +185,7 @@ export function BuyProduct({onBuyProduct}: BuyProductProps) {
         <input 
         name="email"
         type="text"
-        className="border py-2 px-4 mb-2 w-full outline-0"
+        className="border py-1 px-4 mb-2 w-full outline-0"
         placeholder="Email"
         value={email}
         onChange={changeHandlerEmail}
@@ -193,7 +195,7 @@ export function BuyProduct({onBuyProduct}: BuyProductProps) {
         <input 
         name="phone"
         type="text"
-        className="border py-2 px-4 mb-2 w-full outline-0"
+        className="border py-1 px-4 mb-2 w-full outline-0"
         placeholder="Phone (123) 456-7890"
         value={phone}
         onChange={changeHandlerPhone}
@@ -203,7 +205,7 @@ export function BuyProduct({onBuyProduct}: BuyProductProps) {
         <input 
         name="address"
         type="text"
-        className="border py-2 px-4 mb-2 w-full outline-0"
+        className="border py-1 px-4 mb-2 w-full outline-0"
         placeholder="Address"
         value={address}
         onChange={changeHandlerAddress}
@@ -258,11 +260,11 @@ export function BuyProduct({onBuyProduct}: BuyProductProps) {
         {(dateDirty && errorDate) && <Error error={errorDate}/>}
         {(codeDirty && errorCode) && <Error error={errorCode}/>}
         
-        {errorMsg && <label className="text-center text-red-600 mt-5">Please Enter valid fields!</label>}
+        {errorMsg && <label className="text-center text-red-600 mt-5 text-sm">Please Enter valid fields!</label>}
 
-        {!formValid ? <label onClick={handleClickMessageError} className="py-2 px-10 border rounded mt-10 m-auto bg-yellow-400">CONFIRM</label> 
-        : <button disabled={!formValid} type="submit" className="py-2 px-10 border bg-yellow-400 rounded mt-10 m-auto hover:bg-blue-400">CONFIRM</button>}
-
+        {!formValid ? <label onClick={handleClickMessageError} className="py-2 px-10 border rounded mt-5 m-auto bg-yellow-400">CONFIRM</label> 
+        : <button disabled={!formValid} type="submit" className="py-2 px-10 border bg-yellow-400 rounded mt-5 m-auto hover:bg-blue-400">CONFIRM</button>}
+        
     </form>
   )
 }

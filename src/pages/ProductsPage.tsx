@@ -15,11 +15,7 @@ import Amount from '../components/Amount/Amount';
 
 type FilterFunction = (a: IProduct) => boolean
 
-interface IProductsPage {
-  isLayaout: boolean
-}
-
-export function ProductsPage({isLayaout}: IProductsPage) {
+export function ProductsPage() {
     const {loading, error, products} = useProducts();
     const [query, setQuery] = useState<Record<string, string | number>>({})
     const navigate = useNavigate()
@@ -94,7 +90,7 @@ export function ProductsPage({isLayaout}: IProductsPage) {
 
     return (
       <>
-      {!isLayaout && <div onClick={handleClick}>
+        <div onClick={handleClick}>
         <p className="flex m-auto items-center ml-[50%]">Total price: {price === 0 ? getTotalPrice().toFixed(2) : price.toFixed(2)} $</p>
         <div className='flex flex-col gap-4 mb-6'>
           <Search handleSearchValue={handleSearchValue} setQuery={setQuery} query={query}/>
@@ -112,7 +108,7 @@ export function ProductsPage({isLayaout}: IProductsPage) {
             {!filteredProducts.length && products.length ? <Products productsToDisplay={products}/> : filteredProducts.length && products.length ? <Products productsToDisplay={filteredProducts}/> : <div>По вашему запросу ничего не найдено</div>}
           </div>
         </div>
-      </div>}
+      </div>
       </>
     
     );

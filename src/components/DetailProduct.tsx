@@ -12,6 +12,7 @@ export function DetailProduct({product}: ProductProps) {
 
     const [add, setAdd] = useState<Boolean>(false);
     const [modal, setModal] = useState<Boolean>(false);
+    const [isOrder, setIsOrder] = useState<Boolean>(false);
 
     let productsID = JSON.parse(localStorage.getItem("ProductsId") || "[]");
 
@@ -22,8 +23,7 @@ export function DetailProduct({product}: ProductProps) {
     const btnClassName = add ? 'bg-yellow-400' : 'bg-blue-400';
     const btnClasses = ['border w-full flex items-center justify-items-center justify-center py-2 rounded', btnClassName];
 
-
-    const handleClick = () => {
+    function addProduct() {
         setAdd(prev => !prev);
         if(!productsID.includes(product.id)) {
             productsID.push(product.id);
@@ -34,8 +34,13 @@ export function DetailProduct({product}: ProductProps) {
         }
     }
 
+    const handleClick = () => {
+        addProduct();
+    }
+
     const handleBuyClick = () => {
         setModal(true);
+        addProduct();
     }
 
   return (
@@ -58,7 +63,7 @@ export function DetailProduct({product}: ProductProps) {
                 > BUY NOW
             </button>
             {modal && <Modal title="Personal details" onClose={()=> setModal(false)}>
-                <BuyProduct onBuyProduct={()=>setModal(false)}/>
+                <BuyProduct onOrderProduct={()=> setIsOrder(true)} onBuyProduct={()=>setModal(false)}/>
             </Modal>}
         </div>
         <p className='col-span-3 text-center'>{product.description}</p>
